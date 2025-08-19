@@ -1,0 +1,59 @@
+name: Spring Boot CI/CD Advance Lab
+on:
+  workflow_dispatch:
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [ '21', '23' ]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+          cache: 'gradle'
+          
+      - name: Grant execute permission to gradlew
+        run: chmod +x gradlew
+        
+      - name: Build with Gradle
+        run: ./gradlew build -x test  
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spring-boot-app-JDK-${{ matrix.java-version }}
+          path: build/libs/*.jar
+          
+      - name: Perform Tests
+        run: ./gradlew test
+          
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-JDK-${{ matrix.java-version }}
+          path: build/reports/tests/test/     
+        
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: ['21', '23']
+    needs: build_and_test
+    
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: spring-boot-app-JDK-${{ matrix.java-version }}
+          path: .
+      - name: Deploy the application
+        run: |
+          echo "Downloaded artifact from the 'build' job..."
+          echo "Deploying the artifact: spring-boot-app"
+        
