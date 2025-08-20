@@ -4,7 +4,7 @@ on:
     branches: [ main ]
 jobs:
   build:
-    uses: ./.github/workflows/test-suite.yml
+    uses: ./.github/workflows/gradle_build_app.yml
           
   call-test-suite:
     needs: build
