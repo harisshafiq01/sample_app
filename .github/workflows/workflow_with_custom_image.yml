@@ -33,8 +33,8 @@ jobs:
           push: true
           # Tag the image with the short SHA for uniqueness and 'latest' for convenience
           tags: |
-            ghcr.io/${{ toLower(github.repository) }}/custom-java-runner:${{ github.sha }}
-            ghcr.io/${{ toLower(github.repository) }}/custom-java-runner:latest
+            ghcr.io/${{ toLowerCase(github.repository) }}/custom-java-runner:${{ github.sha }}
+            ghcr.io/${{ toLowerCase(github.repository) }}/custom-java-runner:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
