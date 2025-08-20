@@ -34,8 +34,8 @@ jobs:
           # This section must be indented correctly with two spaces under 'tags'.
           # The variables must be wrapped exactly as shown.
           tags: |
-            ghcr.io/wajeeh-ahmed/custom-java-runner:${{ github.sha }}
-            ghcr.io/wajeeh-ahmed/custom-java-runner:latest
+            ghcr.io/${{ GIT_REPO }}/custom-java-runner:${{ github.sha }}
+            ghcr.io/${{ GIT_REPO }}/custom-java-runner:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -90,8 +90,4 @@ jobs:
       - name: Deploy Application
         run: |
           echo "Deployment started..."
-          # Example deployment command (e.g., to a local server, cloud, etc.)
-          # Assuming the JAR is in the 'spring-boot-app' directory after download
-          ls -l spring-boot-app/ # Verify content
-          java -jar spring-boot-app/*.jar # Run your Spring Boot app
           echo "Application deployed."  
