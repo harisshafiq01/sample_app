@@ -31,11 +31,9 @@ jobs:
         with:
           context: .
           push: true
-          # This section must be indented correctly with two spaces under 'tags'.
-          # The variables must be wrapped exactly as shown.
           tags: |
-            ghcr.io/${{ GIT_REPO }}/custom-java-runner:${{ github.sha }}
-            ghcr.io/${{ GIT_REPO }}/custom-java-runner:latest
+            ghcr.io/${{ vars.GIT_REPO }}/custom-java-runner:${{ github.sha }}
+            ghcr.io/${{ vars.GIT_REPO }}/custom-java-runner:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
