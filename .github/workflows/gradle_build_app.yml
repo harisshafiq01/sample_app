@@ -1,4 +1,4 @@
-name: Reusable Test Suite
+name: Reusable Gradle Build
 
 on:
   workflow_call: 
