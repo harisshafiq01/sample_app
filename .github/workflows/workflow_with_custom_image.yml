@@ -1,4 +1,4 @@
-name: Spring Boot CI/CD with custom image
+name: CI USING CUSTOM DOCKER IMAGE
 on:
   workflow_dispatch:
 
@@ -22,8 +22,8 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }} # Uses your GitHub username
-          password: ${{ secrets.GITHUB_TOKEN }} # Uses the automatically generated token
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push Custom Runner Image
         id: image_build
@@ -37,17 +37,14 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  # Job 2: Build and Test the Spring Boot Application using the custom image
   build-and-test-application:
     runs-on: ubuntu-latest
-    needs: build-custom-runner-image # Depends on the custom image being built first
+    needs: build-custom-runner-image
     container:
-      # Use the output from the previous job to get the custom image name
       image: ${{ needs.build-custom-runner-image.outputs.custom_image_name }}
-      options: --user root # Important: running as root inside container for permissions
+      options: --user root
     steps:
       - name: Checkout Code
-        # Checkout the code inside the custom container
         uses: actions/checkout@v4
 
       - name: Grant execute permission to gradlew
@@ -75,9 +72,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-test-application
     container:
-      # Use the same custom image, or you could use a different, smaller custom image for deployment if you built one
       image: ${{ needs.build-custom-runner-image.outputs.custom_image_name }}
-      options: --user root # Important: running as root inside container for permissions
+      options: --user root
     steps:
       - name: Download Application Artifact
         uses: actions/download-artifact@v4
