@@ -35,7 +35,6 @@ jobs:
           tags: |
             ghcr.io/${{ toLower(github.repository) }}/custom-java-runner:${{ github.sha }}
             ghcr.io/${{ toLower(github.repository) }}/custom-java-runner:latest
-          # Cache layers to speed up rebuilds
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
