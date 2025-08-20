@@ -34,8 +34,8 @@ jobs:
           # This section must be indented correctly with two spaces under 'tags'.
           # The variables must be wrapped exactly as shown.
           tags: |
-            ghcr.io/${{ toLower(github.repository) }}/custom-java-runner:${{ github.sha }}
-            ghcr.io/${{ toLower(github.repository) }}/custom-java-runner:latest
+            ghcr.io/wajeeh-ahmed/custom-java-runner:${{ github.sha }}
+            ghcr.io/wajeeh-ahmed/custom-java-runner:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
