@@ -1,4 +1,4 @@
-name: CI USING CUSTOM DOCKER IMAGE
+name: Docker Image Maker
 on:
   workflow_dispatch:
 
@@ -111,7 +111,7 @@ jobs:
 
   build-sonarscanner-image:
     runs-on: ubuntu-latest
-    needs: build-windows-image
+    needs: build-alpine-image
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
