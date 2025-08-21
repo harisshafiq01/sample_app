@@ -54,7 +54,8 @@ jobs:
       - name: Build and Push Gradle Image
         uses: docker/build-push-action@v5
         with:
-          context: ./Dockerfile_gradle
+          context: .
+          file: Dockerfile_gradle
           push: true
           tags: |
             ghcr.io/${{ vars.GIT_REPO }}/gradle-custom-image:${{ github.sha }}
@@ -80,7 +81,8 @@ jobs:
       - name: Build and Push Alpine Image
         uses: docker/build-push-action@v5
         with:
-          context: ./Dockerfile_alpine
+          context: .
+          file: Dockerfile_alpine
           push: true
           tags: |
             ghcr.io/${{ vars.GIT_REPO }}/alpine-awscli-image:${{ github.sha }}
@@ -127,7 +129,8 @@ jobs:
       - name: Build and Push SonarScanner Image
         uses: docker/build-push-action@v5
         with:
-          context: ./Dockerfile_sonar_scanner
+          context: .
+          file: Dockerfile_sonar_scanner
           push: true
           tags: |
             ghcr.io/${{ vars.GIT_REPO }}/sonarscanner-image:${{ github.sha }}
