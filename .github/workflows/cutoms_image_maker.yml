@@ -27,7 +27,8 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: ./Dockerfile_awscli
+          context: .
+          file: Dockerfile_awscli
           push: true
           tags: |
             ghcr.io/${{ vars.GIT_REPO }}/docker-awscli-image:${{ github.sha }}
