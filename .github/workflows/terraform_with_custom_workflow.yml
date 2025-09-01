@@ -1,0 +1,63 @@
+name: 'Running Teraform Script on Localstack'
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+jobs:
+  terraform_plan:
+    runs-on: self-hosted  # Use the self-hosted runner
+    environment: dev
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: |
+          aws --endpoint-url=http://localhost:4566 s3 mb s3://tf-state-bucket
+          terraform init -backend-config="key=dev/terraform.tfstate"
+
+      - name: Terraform Plan
+        run: |
+          terraform plan -out=tfplan -var-file="dev.tfvars"
+
+      - name: Upload Terraform Plan Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan
+          path: tfplan
+
+  terraform_apply:
+    needs: [terraform_plan]
+    if: github.ref == 'refs/heads/main'
+    runs-on: self-hosted
+    environment:
+      name: prod
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: |
+          aws --endpoint-url=http://localhost:4566 s3 mb s3://tf-state-bucket
+          terraform init -backend-config="key=dev/terraform.tfstate"
+
+      - name: Download Terraform Plan Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan
+          path: .
+
+      - name: Terraform Apply
+        run: |
+          terraform apply -auto-approve tfplan
