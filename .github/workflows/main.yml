@@ -1,7 +1,6 @@
 name: Spring Boot CI/CD With Gradle
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
 jobs:
   build:
     uses: ./.github/workflows/gradle_build_app.yml

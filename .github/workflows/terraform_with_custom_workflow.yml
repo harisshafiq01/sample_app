@@ -1,4 +1,4 @@
-name: 'Running Teraform Script on Localstack'
+name: 'Running Terraform Script on Localstack'
 
 on:
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: terraform-plan
-          path: tfplan
+          path: .
 
   terraform_apply:
     needs: [terraform_plan]
