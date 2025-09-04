@@ -27,7 +27,7 @@ jobs:
                 path: build/libs/*.jar
           - name: Use Variables & Secrets
             run: |
-              echo "Repository Variable is ${{ secrets.VAR_HARIS }}"
+              echo "Repository Variable is ${{ vars.VAR_HARIS }}"
               echo "Repository Secret is ${{ secrets.SECRET_HARIS }}"
 
     test_java:
