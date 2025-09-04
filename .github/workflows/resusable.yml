@@ -1,8 +1,9 @@
 name: Build and Reusable Test
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main
 
 jobs:
     build_java:
